@@ -1,0 +1,7 @@
+name: XPEcon
+version: '1.0-SNAPSHOT'
+main: de.moritzhuber.xPEcon.XPEcon
+api-version: '1.21'
+load: STARTUP
+authors: [ Moritz Huber ]
+website: https://moritzhuber.de
