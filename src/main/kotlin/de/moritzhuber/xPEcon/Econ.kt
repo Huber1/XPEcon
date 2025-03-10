@@ -2,9 +2,14 @@ package de.moritzhuber.xPEcon
 
 import net.milkbowl.vault.economy.Economy
 import net.milkbowl.vault.economy.EconomyResponse
+import org.bukkit.Bukkit
 import org.bukkit.OfflinePlayer
+import org.bukkit.plugin.java.JavaPlugin
 
-class Econ(private val xpService: PlayerXPService) : Economy {
+class Econ(
+    private val plugin: JavaPlugin,
+    private val xpService: PlayerXPService,
+) : Economy {
     override fun isEnabled(): Boolean = true
 
     override fun getName(): String = "XPEcon"
@@ -29,131 +34,125 @@ class Econ(private val xpService: PlayerXPService) : Economy {
 
     override fun hasAccount(player: OfflinePlayer?, worldName: String?): Boolean = true
 
-    override fun getBalance(playerName: String?): Double {
-        TODO("Not yet implemented")
+    @Deprecated("Deprecated in Java", ReplaceWith("getBalance(player)"))
+    override fun getBalance(playerName: String): Double {
+        val player = Bukkit.getOfflinePlayer(playerName)
+        return getBalance(player)
     }
 
-    override fun getBalance(player: OfflinePlayer?): Double {
-        TODO("Not yet implemented")
+    override fun getBalance(player: OfflinePlayer): Double = xpService.get(player).toDouble()
+
+    @Deprecated("Deprecated in Java", ReplaceWith("getBalance(player, world)"))
+    override fun getBalance(playerName: String, world: String?): Double = getBalance(playerName)
+
+    override fun getBalance(player: OfflinePlayer, world: String?): Double = getBalance(player)
+
+    @Deprecated("Deprecated in Java", ReplaceWith("has(player)"))
+    override fun has(playerName: String, amount: Double): Boolean {
+        val player = Bukkit.getOfflinePlayer(playerName)
+        return has(player, amount)
     }
 
-    override fun getBalance(playerName: String?, world: String?): Double {
-        TODO("Not yet implemented")
+    override fun has(player: OfflinePlayer, amount: Double): Boolean = xpService.get(player) >= amount
+
+    @Deprecated("Deprecated in Java", ReplaceWith("has(player, world, amount)"))
+    override fun has(playerName: String, worldName: String?, amount: Double): Boolean = has(playerName, amount)
+
+    override fun has(player: OfflinePlayer, worldName: String?, amount: Double): Boolean = has(player, amount)
+
+    @Deprecated("Deprecated in Java")
+    override fun withdrawPlayer(playerName: String, amount: Double): EconomyResponse {
+        val player = Bukkit.getOfflinePlayer(playerName)
+        return withdrawPlayer(player, amount)
     }
 
-    override fun getBalance(player: OfflinePlayer?, world: String?): Double {
-        TODO("Not yet implemented")
+    override fun withdrawPlayer(player: OfflinePlayer, amount: Double): EconomyResponse =
+        xpService.withdraw(player, amount.toInt())
+
+    @Deprecated("Deprecated in Java", ReplaceWith("withdrawPlayer(player, amount)"))
+    override fun withdrawPlayer(playerName: String, worldName: String?, amount: Double): EconomyResponse =
+        withdrawPlayer(playerName, amount)
+
+    override fun withdrawPlayer(player: OfflinePlayer, worldName: String?, amount: Double): EconomyResponse =
+        withdrawPlayer(player, amount)
+
+    @Deprecated("Deprecated in Java")
+    override fun depositPlayer(playerName: String, amount: Double): EconomyResponse {
+        val player = Bukkit.getOfflinePlayer(playerName)
+        return depositPlayer(player, amount)
     }
 
-    override fun has(playerName: String?, amount: Double): Boolean {
-        TODO("Not yet implemented")
+    override fun depositPlayer(player: OfflinePlayer, amount: Double): EconomyResponse =
+        xpService.deposit(player, amount.toInt())
+
+    @Deprecated("Deprecated in Java", ReplaceWith("depositPlayer(player, amount)"))
+    override fun depositPlayer(playerName: String, worldName: String?, amount: Double): EconomyResponse =
+        depositPlayer(playerName, amount)
+
+    override fun depositPlayer(player: OfflinePlayer, worldName: String?, amount: Double): EconomyResponse =
+        depositPlayer(player, amount)
+
+    @Deprecated("Deprecated in Java")
+    override fun createBank(name: String?, player: String): EconomyResponse {
+        val offlinePlayer = Bukkit.getOfflinePlayer(player)
+        return createBank(name, offlinePlayer)
     }
 
-    override fun has(player: OfflinePlayer?, amount: Double): Boolean {
-        TODO("Not yet implemented")
-    }
+    override fun createBank(name: String?, player: OfflinePlayer): EconomyResponse = EconomyResponse(
+        0.0,
+        xpService.get(player).toDouble(),
+        EconomyResponse.ResponseType.NOT_IMPLEMENTED,
+        "Not Implemented",
+    )
 
-    override fun has(playerName: String?, worldName: String?, amount: Double): Boolean {
-        TODO("Not yet implemented")
-    }
+    override fun deleteBank(name: String?): EconomyResponse =
+        EconomyResponse(0.0, 0.0, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "Not Implemented")
 
-    override fun has(player: OfflinePlayer?, worldName: String?, amount: Double): Boolean {
-        TODO("Not yet implemented")
-    }
+    override fun bankBalance(name: String?): EconomyResponse =
+        EconomyResponse(0.0, 0.0, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "Not Implemented")
 
-    override fun withdrawPlayer(playerName: String?, amount: Double): EconomyResponse {
-        TODO("Not yet implemented")
-    }
+    override fun bankHas(name: String?, amount: Double): EconomyResponse =
+        EconomyResponse(0.0, 0.0, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "Not Implemented")
 
-    override fun withdrawPlayer(player: OfflinePlayer?, amount: Double): EconomyResponse {
-        TODO("Not yet implemented")
-    }
+    override fun bankWithdraw(name: String?, amount: Double): EconomyResponse =
+        EconomyResponse(0.0, 0.0, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "Not Implemented")
 
-    override fun withdrawPlayer(playerName: String?, worldName: String?, amount: Double): EconomyResponse {
-        TODO("Not yet implemented")
-    }
+    override fun bankDeposit(name: String?, amount: Double): EconomyResponse =
+        EconomyResponse(0.0, 0.0, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "Not Implemented")
 
-    override fun withdrawPlayer(player: OfflinePlayer?, worldName: String?, amount: Double): EconomyResponse {
-        TODO("Not yet implemented")
-    }
+    @Deprecated(
+        "Deprecated in Java", ReplaceWith(
+            "isBankOwner(name, player)",
+            "net.milkbowl.vault.economy.EconomyResponse",
+        )
+    )
+    override fun isBankOwner(name: String?, playerName: String?): EconomyResponse =
+        EconomyResponse(0.0, 0.0, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "Not Implemented")
 
-    override fun depositPlayer(playerName: String?, amount: Double): EconomyResponse {
-        TODO("Not yet implemented")
-    }
+    override fun isBankOwner(name: String?, player: OfflinePlayer?): EconomyResponse =
+        EconomyResponse(0.0, 0.0, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "Not Implemented")
 
-    override fun depositPlayer(player: OfflinePlayer?, amount: Double): EconomyResponse {
-        TODO("Not yet implemented")
-    }
+    @Deprecated(
+        "Deprecated in Java", ReplaceWith(
+            "isBankMember(name, player)",
+            "net.milkbowl.vault.economy.EconomyResponse",
+        )
+    )
+    override fun isBankMember(name: String?, playerName: String?): EconomyResponse =
+        EconomyResponse(0.0, 0.0, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "Not Implemented")
 
-    override fun depositPlayer(playerName: String?, worldName: String?, amount: Double): EconomyResponse {
-        TODO("Not yet implemented")
-    }
+    override fun isBankMember(name: String?, player: OfflinePlayer?): EconomyResponse =
+        EconomyResponse(0.0, 0.0, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "Not Implemented")
 
-    override fun depositPlayer(player: OfflinePlayer?, worldName: String?, amount: Double): EconomyResponse {
-        TODO("Not yet implemented")
-    }
+    override fun getBanks(): MutableList<String> = mutableListOf()
 
-    override fun createBank(name: String?, player: String?): EconomyResponse {
-        TODO("Not yet implemented")
-    }
+    @Deprecated("Deprecated in Java", ReplaceWith("createPlayerAccount(player)"))
+    override fun createPlayerAccount(playerName: String?): Boolean = false
 
-    override fun createBank(name: String?, player: OfflinePlayer?): EconomyResponse {
-        TODO("Not yet implemented")
-    }
+    override fun createPlayerAccount(player: OfflinePlayer?): Boolean = false
 
-    override fun deleteBank(name: String?): EconomyResponse {
-        TODO("Not yet implemented")
-    }
+    @Deprecated("Deprecated in Java", ReplaceWith("createPlayerAccount(player, worldName)"))
+    override fun createPlayerAccount(playerName: String?, worldName: String?): Boolean = false
 
-    override fun bankBalance(name: String?): EconomyResponse {
-        TODO("Not yet implemented")
-    }
-
-    override fun bankHas(name: String?, amount: Double): EconomyResponse {
-        TODO("Not yet implemented")
-    }
-
-    override fun bankWithdraw(name: String?, amount: Double): EconomyResponse {
-        TODO("Not yet implemented")
-    }
-
-    override fun bankDeposit(name: String?, amount: Double): EconomyResponse {
-        TODO("Not yet implemented")
-    }
-
-    override fun isBankOwner(name: String?, playerName: String?): EconomyResponse {
-        TODO("Not yet implemented")
-    }
-
-    override fun isBankOwner(name: String?, player: OfflinePlayer?): EconomyResponse {
-        TODO("Not yet implemented")
-    }
-
-    override fun isBankMember(name: String?, playerName: String?): EconomyResponse {
-        TODO("Not yet implemented")
-    }
-
-    override fun isBankMember(name: String?, player: OfflinePlayer?): EconomyResponse {
-        TODO("Not yet implemented")
-    }
-
-    override fun getBanks(): MutableList<String> {
-        TODO("Not yet implemented")
-    }
-
-    override fun createPlayerAccount(playerName: String?): Boolean {
-        TODO("Not yet implemented")
-    }
-
-    override fun createPlayerAccount(player: OfflinePlayer?): Boolean {
-        TODO("Not yet implemented")
-    }
-
-    override fun createPlayerAccount(playerName: String?, worldName: String?): Boolean {
-        TODO("Not yet implemented")
-    }
-
-    override fun createPlayerAccount(player: OfflinePlayer?, worldName: String?): Boolean {
-        TODO("Not yet implemented")
-    }
+    override fun createPlayerAccount(player: OfflinePlayer?, worldName: String?): Boolean = false
 }

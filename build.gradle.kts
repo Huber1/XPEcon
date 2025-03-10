@@ -23,6 +23,7 @@ dependencies {
     compileOnly("io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     compileOnly("com.github.MilkBowl:VaultApi:1.7.1")
+    implementation("com.github.Querz:NBT:6.1")
 }
 
 val targetJavaVersion = 21
