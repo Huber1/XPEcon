@@ -7,9 +7,11 @@ import io.papermc.paper.plugin.lifecycle.event.handler.LifecycleEventHandler
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents
 import net.milkbowl.vault.economy.Economy
 import org.bukkit.Bukkit
+import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.plugin.ServicePriority
 import org.bukkit.plugin.java.JavaPlugin
 import java.io.File
+import java.time.LocalDateTime
 import java.util.*
 
 
@@ -22,6 +24,7 @@ class XPEcon : JavaPlugin() {
 
     @Suppress("UnstableApiUsage")
     override fun onEnable() {
+        saveDefaultConfig()
         properties.load(File("server.properties").inputStream())
 
         Bukkit.getServicesManager().register(Economy::class.java, XPEconomy(xpService), this, ServicePriority.Normal)
@@ -61,5 +64,26 @@ class XPEcon : JavaPlugin() {
 
     override fun onDisable() {
         // Plugin shutdown logic
+        cleanupPlayerDatBackups()
+    }
+
+    private fun cleanupPlayerDatBackups() {
+        val folder = File("XPEcon")
+        val now = LocalDateTime.now()
+        val lastWeek = now.minusWeeks(1)
+
+        for(playerFolder in folder.listFiles() ?: arrayOf()) {
+            if(!playerFolder.isDirectory) continue
+
+            for (file in playerFolder.listFiles() ?: arrayOf()) {
+                val dateString = file.name.split(".").subList(1,2).joinToString(".")
+                val date = LocalDateTime.parse(dateString)
+                if (date.isBefore(lastWeek))
+                    file.delete()
+            }
+
+            if(playerFolder.listFiles()?.isEmpty() != false)
+                playerFolder.deleteRecursively()
+        }
     }
 }

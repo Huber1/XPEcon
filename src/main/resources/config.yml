@@ -1,0 +1,6 @@
+# Allow modifying the player.dat file if the player is offline
+# Modification and Backup are happening on the main Thread!
+allow-offline: true
+# Feature is stable but there's always a risk to modify the nbt files
+# This will create a backup of the old file in xpEcon/<uuid>/<uuid>.<timestamp>.dat
+backup: true

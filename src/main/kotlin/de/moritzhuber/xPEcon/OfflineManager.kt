@@ -1,10 +1,13 @@
 package de.moritzhuber.xPEcon
 
+import de.moritzhuber.xPEcon.exceptions.PlayerNotFoundException
 import net.querz.nbt.io.NBTUtil
 import net.querz.nbt.tag.CompoundTag
 import org.bukkit.OfflinePlayer
 import org.bukkit.plugin.java.JavaPlugin
 import java.io.File
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 class OfflineManager(private val plugin: JavaPlugin, properties: Properties) {
@@ -52,6 +55,16 @@ class OfflineManager(private val plugin: JavaPlugin, properties: Properties) {
         tag.putInt("XpLevel", required.first)
         tag.putFloat("XpP", required.second)
 
-        NBTUtil.write(tag, getFile(player))
+        val file = getFile(player)
+
+        if (plugin.config.getBoolean("backup")) {
+            val datetime = LocalDateTime.now()
+            val formatted = datetime.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+            val backupFile = File("XPEcon/${player.uniqueId}/${player.uniqueId}.$formatted.dat")
+            file.parentFile.mkdirs()
+            file.copyTo(backupFile)
+        }
+
+        NBTUtil.write(tag, file)
     }
 }

@@ -1,5 +1,7 @@
 package de.moritzhuber.xPEcon
 
+import de.moritzhuber.xPEcon.exceptions.OfflineModificationNotAllowedException
+import de.moritzhuber.xPEcon.exceptions.PlayerNotFoundException
 import de.moritzhuber.xPEcon.extensions.combinedExp
 import net.milkbowl.vault.economy.EconomyResponse
 import org.bukkit.OfflinePlayer
@@ -25,6 +27,9 @@ class PlayerXPService(private val plugin: JavaPlugin, private val offlineManager
             return
         }
 
+        if(!plugin.config.getBoolean("allow-offline"))
+            throw OfflineModificationNotAllowedException()
+
         return offlineManager.setExp(player, newAmount)
     }
 
@@ -33,7 +38,7 @@ class PlayerXPService(private val plugin: JavaPlugin, private val offlineManager
         val modified = previous - amount
         try {
             set(player, modified)
-        } catch (e: PlayerNotFoundException) {
+        } catch (e: Exception) {
             return EconomyResponse(
                 0.toDouble(),
                 previous.toDouble(),
@@ -55,7 +60,7 @@ class PlayerXPService(private val plugin: JavaPlugin, private val offlineManager
         val modified = previous + amount
         try {
             set(player, modified)
-        } catch (e: PlayerNotFoundException) {
+        } catch (e: Exception) {
             return EconomyResponse(
                 0.toDouble(),
                 previous.toDouble(),

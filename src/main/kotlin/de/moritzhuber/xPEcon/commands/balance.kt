@@ -3,7 +3,7 @@ package de.moritzhuber.xPEcon.commands
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.arguments.StringArgumentType
 import com.mojang.brigadier.tree.LiteralCommandNode
-import de.moritzhuber.xPEcon.PlayerNotFoundException
+import de.moritzhuber.xPEcon.exceptions.PlayerNotFoundException
 import de.moritzhuber.xPEcon.XPEcon
 import io.papermc.paper.command.brigadier.CommandSourceStack
 import io.papermc.paper.command.brigadier.Commands
