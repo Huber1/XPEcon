@@ -75,6 +75,10 @@ class EcoCommand(private val plugin: XPEcon) {
                                     val targetResolver =
                                         ctx.getArgument("targets", PlayerSelectorArgumentResolver::class.java)
                                     val players = targetResolver.resolve(ctx.source)
+                                    if(players.isEmpty()) {
+                                        ctx.source.sender.sendMessage(Component.text("No Players affected", NamedTextColor.GOLD))
+                                        return@executes Command.SINGLE_SUCCESS
+                                    }
                                     val amount = IntegerArgumentType.getInteger(ctx, "amount")
 
                                     val errors = mutableListOf<String>()
@@ -141,6 +145,10 @@ class EcoCommand(private val plugin: XPEcon) {
                                     val targetResolver =
                                         ctx.getArgument("targets", PlayerSelectorArgumentResolver::class.java)
                                     val players = targetResolver.resolve(ctx.source)
+                                    if(players.isEmpty()) {
+                                        ctx.source.sender.sendMessage(Component.text("No Players affected", NamedTextColor.GOLD))
+                                        return@executes Command.SINGLE_SUCCESS
+                                    }
                                     val amount = IntegerArgumentType.getInteger(ctx, "amount")
 
                                     val errors = mutableListOf<String>()
@@ -209,6 +217,10 @@ class EcoCommand(private val plugin: XPEcon) {
                                     val targetResolver =
                                         ctx.getArgument("targets", PlayerSelectorArgumentResolver::class.java)
                                     val players = targetResolver.resolve(ctx.source)
+                                    if(players.isEmpty()) {
+                                        ctx.source.sender.sendMessage(Component.text("No Players affected", NamedTextColor.GOLD))
+                                        return@executes Command.SINGLE_SUCCESS
+                                    }
                                     val amount = IntegerArgumentType.getInteger(ctx, "amount")
 
                                     val errors = mutableListOf<String>()
