@@ -24,17 +24,17 @@ class XPEconomy(
 
     override fun currencyNameSingular(): String = "XP"
 
-    @Deprecated("Deprecated in Java", ReplaceWith("hasAccount(player)"))
+    @Deprecated("Deprecated by Vault", ReplaceWith("hasAccount(player)"))
     override fun hasAccount(playerName: String?): Boolean = true
 
     override fun hasAccount(player: OfflinePlayer?): Boolean = true
 
-    @Deprecated("Deprecated in Java", ReplaceWith("hasAccount(player, worldName)"))
+    @Deprecated("Deprecated by Vault", ReplaceWith("hasAccount(player, worldName)"))
     override fun hasAccount(playerName: String?, worldName: String?): Boolean = true
 
     override fun hasAccount(player: OfflinePlayer?, worldName: String?): Boolean = true
 
-    @Deprecated("Deprecated in Java", ReplaceWith("getBalance(player)"))
+    @Deprecated("Deprecated by Vault", ReplaceWith("getBalance(player)"))
     override fun getBalance(playerName: String): Double {
         val player = Bukkit.getOfflinePlayer(playerName)
         return getBalance(player)
@@ -42,7 +42,7 @@ class XPEconomy(
 
     override fun getBalance(player: OfflinePlayer): Double = xpService.get(player).toDouble()
 
-    @Deprecated("Deprecated in Java", ReplaceWith("getBalance(player, world)"))
+    @Deprecated("Deprecated by Vault", ReplaceWith("getBalance(player, world)"))
     override fun getBalance(playerName: String, world: String?): Double = getBalance(playerName)
 
     override fun getBalance(player: OfflinePlayer, world: String?): Double = getBalance(player)
@@ -59,7 +59,7 @@ class XPEconomy(
         )
     }
 
-    @Deprecated("Deprecated in Java", ReplaceWith("has(player)"))
+    @Deprecated("Deprecated by Vault", ReplaceWith("has(player)"))
     override fun has(playerName: String, amount: Double): Boolean {
         val player = Bukkit.getOfflinePlayer(playerName)
         return has(player, amount)
@@ -67,12 +67,12 @@ class XPEconomy(
 
     override fun has(player: OfflinePlayer, amount: Double): Boolean = xpService.get(player) >= amount
 
-    @Deprecated("Deprecated in Java", ReplaceWith("has(player, world, amount)"))
+    @Deprecated("Deprecated by Vault", ReplaceWith("has(player, world, amount)"))
     override fun has(playerName: String, worldName: String?, amount: Double): Boolean = has(playerName, amount)
 
     override fun has(player: OfflinePlayer, worldName: String?, amount: Double): Boolean = has(player, amount)
 
-    @Deprecated("Deprecated in Java")
+    @Deprecated("Deprecated by Vault")
     override fun withdrawPlayer(playerName: String, amount: Double): EconomyResponse {
         val player = Bukkit.getOfflinePlayer(playerName)
         return withdrawPlayer(player, amount)
@@ -81,14 +81,14 @@ class XPEconomy(
     override fun withdrawPlayer(player: OfflinePlayer, amount: Double): EconomyResponse =
         xpService.withdraw(player, amount.toInt())
 
-    @Deprecated("Deprecated in Java", ReplaceWith("withdrawPlayer(player, amount)"))
+    @Deprecated("Deprecated by Vault", ReplaceWith("withdrawPlayer(player, amount)"))
     override fun withdrawPlayer(playerName: String, worldName: String?, amount: Double): EconomyResponse =
         withdrawPlayer(playerName, amount)
 
     override fun withdrawPlayer(player: OfflinePlayer, worldName: String?, amount: Double): EconomyResponse =
         withdrawPlayer(player, amount)
 
-    @Deprecated("Deprecated in Java")
+    @Deprecated("Deprecated by Vault")
     override fun depositPlayer(playerName: String, amount: Double): EconomyResponse {
         val player = Bukkit.getOfflinePlayer(playerName)
         return depositPlayer(player, amount)
@@ -97,14 +97,14 @@ class XPEconomy(
     override fun depositPlayer(player: OfflinePlayer, amount: Double): EconomyResponse =
         xpService.deposit(player, amount.toInt())
 
-    @Deprecated("Deprecated in Java", ReplaceWith("depositPlayer(player, amount)"))
+    @Deprecated("Deprecated by Vault", ReplaceWith("depositPlayer(player, amount)"))
     override fun depositPlayer(playerName: String, worldName: String?, amount: Double): EconomyResponse =
         depositPlayer(playerName, amount)
 
     override fun depositPlayer(player: OfflinePlayer, worldName: String?, amount: Double): EconomyResponse =
         depositPlayer(player, amount)
 
-    @Deprecated("Deprecated in Java")
+    @Deprecated("Deprecated by Vault")
     override fun createBank(name: String?, player: String): EconomyResponse {
         val offlinePlayer = Bukkit.getOfflinePlayer(player)
         return createBank(name, offlinePlayer)
@@ -133,7 +133,7 @@ class XPEconomy(
         EconomyResponse(0.0, 0.0, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "Not Implemented")
 
     @Deprecated(
-        "Deprecated in Java", ReplaceWith(
+        "Deprecated by Vault", ReplaceWith(
             "isBankOwner(name, player)",
             "net.milkbowl.vault.economy.EconomyResponse",
         )
@@ -145,7 +145,7 @@ class XPEconomy(
         EconomyResponse(0.0, 0.0, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "Not Implemented")
 
     @Deprecated(
-        "Deprecated in Java", ReplaceWith(
+        "Deprecated by Vault", ReplaceWith(
             "isBankMember(name, player)",
             "net.milkbowl.vault.economy.EconomyResponse",
         )
@@ -158,12 +158,12 @@ class XPEconomy(
 
     override fun getBanks(): MutableList<String> = mutableListOf()
 
-    @Deprecated("Deprecated in Java", ReplaceWith("createPlayerAccount(player)"))
+    @Deprecated("Deprecated by Vault", ReplaceWith("createPlayerAccount(player)"))
     override fun createPlayerAccount(playerName: String?): Boolean = false
 
     override fun createPlayerAccount(player: OfflinePlayer?): Boolean = false
 
-    @Deprecated("Deprecated in Java", ReplaceWith("createPlayerAccount(player, worldName)"))
+    @Deprecated("Deprecated by Vault", ReplaceWith("createPlayerAccount(player, worldName)"))
     override fun createPlayerAccount(playerName: String?, worldName: String?): Boolean = false
 
     override fun createPlayerAccount(player: OfflinePlayer?, worldName: String?): Boolean = false

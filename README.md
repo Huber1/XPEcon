@@ -15,6 +15,5 @@ It implements the [Vault API](https://www.spigotmc.org/resources/vault.34315/), 
 Put the file `build/libs/XPEcon-1.0-SNAPSHOT-all.jar` into your plugins folder
 Works on 1.21.4 Paper
 
-> [WARNING]
-> The plugin does not work on Spigot or Bukkit.
-> It uses the new Brigadier command-system from paper
+> [!WARNING]
+> The plugin does not work on Spigot or Bukkit, because it uses paper-exclusive features
