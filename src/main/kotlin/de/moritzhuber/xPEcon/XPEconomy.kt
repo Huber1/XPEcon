@@ -5,8 +5,9 @@ import net.milkbowl.vault.economy.EconomyResponse
 import org.bukkit.Bukkit
 import org.bukkit.OfflinePlayer
 import org.bukkit.plugin.java.JavaPlugin
+import kotlin.math.absoluteValue
 
-class Econ(
+class XPEconomy(
     private val plugin: JavaPlugin,
     private val xpService: PlayerXPService,
 ) : Economy {
@@ -46,6 +47,18 @@ class Econ(
     override fun getBalance(playerName: String, world: String?): Double = getBalance(playerName)
 
     override fun getBalance(player: OfflinePlayer, world: String?): Double = getBalance(player)
+
+    fun setBalance(player: OfflinePlayer, amount: Double): EconomyResponse {
+        val bal = getBalance(player)
+        xpService.set(player, amount.toInt())
+        val new = getBalance(player)
+        return EconomyResponse(
+            (bal - amount).absoluteValue,
+            new,
+            EconomyResponse.ResponseType.SUCCESS,
+            null
+        )
+    }
 
     @Deprecated("Deprecated in Java", ReplaceWith("has(player)"))
     override fun has(playerName: String, amount: Double): Boolean {

@@ -28,6 +28,7 @@ class OfflineManager(private val plugin: JavaPlugin, properties: Properties) {
      * @throws PlayerNotFoundException if Player doesn't exist
      */
     fun getExp(player: OfflinePlayer): Int {
+        plugin.logger.info("Getting XP for offline Player ${player.uniqueId}")
         val tag = getCompoundTag(player)
 
         val level = tag.getInt("XpLevel")

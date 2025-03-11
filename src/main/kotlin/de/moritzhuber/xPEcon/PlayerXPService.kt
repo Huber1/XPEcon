@@ -9,11 +9,9 @@ class PlayerXPService(private val plugin: JavaPlugin, private val offlineManager
     fun get(player: OfflinePlayer): Int {
         // Online
         player.player?.let { p ->
-            plugin.logger.warning("Getting XP for online player ${player.uniqueId}")
             return p.combinedExp
         }
 
-        plugin.logger.warning("Getting XP for offline player ${player.uniqueId}")
         return offlineManager.getExp(player)
     }
 
