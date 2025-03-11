@@ -28,7 +28,16 @@ class PlayerXPService(private val plugin: JavaPlugin, private val offlineManager
     fun withdraw(player: OfflinePlayer, amount: Int): EconomyResponse {
         val previous = get(player)
         val modified = previous - amount
-        set(player, modified)
+        try {
+            set(player, modified)
+        } catch (e: PlayerNotFoundException) {
+            return EconomyResponse(
+                0.toDouble(),
+                previous.toDouble(),
+                EconomyResponse.ResponseType.FAILURE,
+                e.message
+            )
+        }
         val new = get(player).toDouble()
         return EconomyResponse(
             previous - new,
@@ -41,7 +50,16 @@ class PlayerXPService(private val plugin: JavaPlugin, private val offlineManager
     fun deposit(player: OfflinePlayer, amount: Int): EconomyResponse {
         val previous = get(player)
         val modified = previous + amount
-        set(player, modified)
+        try {
+            set(player, modified)
+        } catch (e: PlayerNotFoundException) {
+            return EconomyResponse(
+                0.toDouble(),
+                previous.toDouble(),
+                EconomyResponse.ResponseType.FAILURE,
+                e.message
+            )
+        }
         val new = get(player).toDouble()
         return EconomyResponse(
             new - previous,
