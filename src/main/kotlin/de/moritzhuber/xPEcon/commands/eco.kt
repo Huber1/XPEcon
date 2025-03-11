@@ -144,14 +144,17 @@ class EcoCommand(private val plugin: XPEcon) {
                                     val amount = IntegerArgumentType.getInteger(ctx, "amount")
 
                                     val errors = mutableListOf<String>()
+                                    var newAmount: Int? = null
                                     players.forEach { p ->
                                         val res = plugin.economy.depositPlayer(p, amount.toDouble())
                                         if (res?.errorMessage != null)
                                             errors.add(p.name)
+                                        else
+                                            newAmount = plugin.economy.getBalance(p).toInt()
                                     }
 
                                     if (errors.isEmpty())
-                                        sendSetBalanceSuccessMessage(ctx.source.sender, players, amount)
+                                        sendSetBalanceSuccessMessage(ctx.source.sender, players, newAmount!!)
                                     else
                                         sendSetBalanceErrorMessage(ctx.source.sender, errors)
 
@@ -209,14 +212,16 @@ class EcoCommand(private val plugin: XPEcon) {
                                     val amount = IntegerArgumentType.getInteger(ctx, "amount")
 
                                     val errors = mutableListOf<String>()
+                                    var newAmount: Int? = null
                                     players.forEach { p ->
                                         val res = plugin.economy.withdrawPlayer(p, amount.toDouble())
                                         if (res?.errorMessage != null)
                                             errors.add(p.name)
+                                        else newAmount = plugin.economy.getBalance(p).toInt()
                                     }
 
                                     if (errors.isEmpty())
-                                        sendSetBalanceSuccessMessage(ctx.source.sender, players, amount)
+                                        sendSetBalanceSuccessMessage(ctx.source.sender, players, newAmount!!)
                                     else
                                         sendSetBalanceErrorMessage(ctx.source.sender, errors)
 
