@@ -8,7 +8,6 @@ import org.bukkit.plugin.java.JavaPlugin
 import kotlin.math.absoluteValue
 
 class XPEconomy(
-    private val plugin: JavaPlugin,
     private val xpService: PlayerXPService,
 ) : Economy {
     override fun isEnabled(): Boolean = true

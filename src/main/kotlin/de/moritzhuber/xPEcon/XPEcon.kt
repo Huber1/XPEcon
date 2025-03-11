@@ -24,9 +24,9 @@ class XPEcon : JavaPlugin() {
     override fun onEnable() {
         properties.load(File("server.properties").inputStream())
 
-        Bukkit.getServicesManager().register(Economy::class.java, XPEconomy(this, xpService), this, ServicePriority.Normal)
+        Bukkit.getServicesManager().register(Economy::class.java, XPEconomy(xpService), this, ServicePriority.Normal)
 
-        if(!setupEconomy()) {
+        if (!setupEconomy()) {
             logger.severe("Could not find vault dependency. Disabling plugin")
             server.pluginManager.disablePlugin(this)
             return

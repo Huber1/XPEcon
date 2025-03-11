@@ -4,6 +4,7 @@ import de.moritzhuber.xPEcon.extensions.combinedExp
 import net.milkbowl.vault.economy.EconomyResponse
 import org.bukkit.OfflinePlayer
 import org.bukkit.plugin.java.JavaPlugin
+import kotlin.math.max
 
 class PlayerXPService(private val plugin: JavaPlugin, private val offlineManager: OfflineManager) {
     fun get(player: OfflinePlayer): Int {
@@ -16,13 +17,15 @@ class PlayerXPService(private val plugin: JavaPlugin, private val offlineManager
     }
 
     fun set(player: OfflinePlayer, amount: Int) {
+        val newAmount = max(0, amount)
+
         // Online
         player.player?.let { p ->
-            p.combinedExp = amount
+            p.combinedExp = newAmount
             return
         }
 
-        return offlineManager.setExp(player, amount)
+        return offlineManager.setExp(player, newAmount)
     }
 
     fun withdraw(player: OfflinePlayer, amount: Int): EconomyResponse {
